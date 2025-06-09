@@ -4,7 +4,7 @@
 #include "log.h"
 #include "portability.h"
 
-#include "spirv/unified1/spirv.h"
+#include <spirv/unified1/spirv.h>
 
 #include <string.h>
 

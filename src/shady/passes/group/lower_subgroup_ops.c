@@ -12,7 +12,7 @@
 #include "log.h"
 #include "dict.h"
 
-#include "spirv/unified1/spirv.h"
+#include <spirv/unified1/spirv.h>
 
 #include <string.h>
 

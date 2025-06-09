@@ -9,7 +9,7 @@
 #include "arena.h"
 #include "printer.h"
 
-#include "spirv/unified1/spirv.h"
+#include <spirv/unified1/spirv.h>
 
 typedef struct CFG_ CFG;
 typedef struct Scheduler_ Scheduler;

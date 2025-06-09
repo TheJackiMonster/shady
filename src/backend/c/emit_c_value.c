@@ -805,7 +805,7 @@ ExtISelEntry ext_isel_cuda_entries[] = {
 
 };
 
-#include "spirv/unified1/GLSL.std.450.h"
+#include <spirv/unified1/GLSL.std.450.h>
 
 ExtISelEntry ext_isel_entries[] = {
     {{ "spirv.core", SpvOpGroupNonUniformElect, mk_prefix(SpvScopeSubgroup) }, { IsMono, OsCall, .op = "__shady_elect_first" }},

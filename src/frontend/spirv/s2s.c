@@ -8,9 +8,9 @@ typedef enum SpvOp_ SpvOp;
 static void SpvHasResultAndType(SpvOp opcode, bool *hasResult, bool *hasResultType);
 
 #define SPV_ENABLE_UTILITY_CODE 1
-#include "spirv/unified1/spirv.h"
-#include "spirv/unified1/OpenCL.std.h"
-#include "spirv/unified1/GLSL.std.450.h"
+#include <spirv/unified1/spirv.h>
+#include <spirv/unified1/OpenCL.std.h>
+#include <spirv/unified1/GLSL.std.450.h>
 
 #include "shady/fe/spirv.h"
 

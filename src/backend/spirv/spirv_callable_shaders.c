@@ -9,7 +9,7 @@
 #include "portability.h"
 #include "log.h"
 
-#include "spirv/unified1/spirv.h"
+#include <spirv/unified1/spirv.h>
 
 typedef struct {
     Rewriter rewriter;

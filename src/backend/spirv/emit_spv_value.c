@@ -10,8 +10,8 @@
 #include "dict.h"
 #include "portability.h"
 
-#include "spirv/unified1/NonSemanticDebugPrintf.h"
-#include "spirv/unified1/GLSL.std.450.h"
+#include <spirv/unified1/NonSemanticDebugPrintf.h>
+#include <spirv/unified1/GLSL.std.450.h>
 
 #include <assert.h>
 #include <string.h>
