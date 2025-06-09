@@ -17,13 +17,6 @@ option(SHADY_WIN32_FIX_PARTIAL_LLVM_INSTALL "If you install LLVM on windows, it 
 
 option(EXTERNAL_NASL "Build using external NASL" OFF)
 option(EXTERNAL_SPIRV_HEADERS "Build using external SPIRV headers" OFF)
-option(EXTERNAL_SPIRV_TOOLS "Tools directory of external SPIRV headers" OFF)
-
-if (EXTERNAL_SPIRV_TOOLS STREQUAL "OFF")
-  set(SHADY_SPIRV_TOOLS "${PROJECT_SOURCE_DIR}/SPIRV-Headers/tools")
-else ()
-  set(SHADY_SPIRV_TOOLS "${EXTERNAL_SPIRV_TOOLS}")
-endif ()
 
 if (MSVC)
   add_compile_definitions(_CRT_SECURE_NO_WARNINGS)
@@ -36,8 +29,15 @@ endif()
 option(BUILD_RUNTIME "Whether to build runtime components" ON)
 option(BUILD_SAMPLES "Whether to build built-in demo applications" ON)
 
-if (NOT ${EXTERNAL_SPIRV_HEADERS})
+
+if (EXTERNAL_SPIRV_HEADERS STREQUAL "OFF")
     add_subdirectory(SPIRV-Headers)
+
+    set(SHADY_SPIRV_INCLUDE "${PROJECT_SOURCE_DIR}/SPIRV-Headers/include")
+    set(SHADY_SPIRV_TOOLS "${PROJECT_SOURCE_DIR}/SPIRV-Headers/tools")
+else ()
+	set(SHADY_SPIRV_INCLUDE "${EXTERNAL_SPIRV_HEADERS}/include")
+	set(SHADY_SPIRV_TOOLS "${EXTERNAL_SPIRV_HEADERS}/tools")
 endif ()
 
 if(CMAKE_VERSION VERSION_GREATER_EQUAL "3.24" AND ${SHADY_USE_FETCHCONTENT})

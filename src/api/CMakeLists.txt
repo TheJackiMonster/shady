@@ -8,8 +8,6 @@ target_include_directories(api INTERFACE "$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR
 target_include_directories(api INTERFACE "$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src/shady/>")
 target_link_libraries(api INTERFACE "$<BUILD_INTERFACE:SPIRV-Headers::SPIRV-Headers>")
 
-get_target_property(SPIRV_HEADERS_INCLUDE_DIRS SPIRV-Headers::SPIRV-Headers INTERFACE_INCLUDE_DIRECTORIES)
-
 add_generated_file_python(FILE_NAME grammar_generated.h TARGET_NAME generate-grammar-headers GENERATOR src.api.generator_grammar)
 add_dependencies(api INTERFACE generate-grammar-headers)
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/grammar_generated.h DESTINATION include)
@@ -33,5 +31,3 @@ function(generate_extinst_headers NAME SRC)
     add_dependencies(${NAME} "${NAME}_h")
     target_include_directories(${NAME} INTERFACE ${CMAKE_CURRENT_BINARY_DIR})
 endfunction()
-
-get_target_property(SPIRV_HEADERS_INCLUDE_DIRS SPIRV-Headers::SPIRV-Headers INTERFACE_INCLUDE_DIRECTORIES)
