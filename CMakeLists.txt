@@ -15,6 +15,16 @@ option(BUILD_SHARED_LIBS "Build using shared libraries" ON)
 option(SHADY_USE_FETCHCONTENT "Use FetchContent to grab json-c" ON)
 option(SHADY_WIN32_FIX_PARTIAL_LLVM_INSTALL "If you install LLVM on windows, it doesn't come with header files. This fixes it" ON)
 
+option(EXTERNAL_NASL "Build using external NASL" OFF)
+option(EXTERNAL_SPIRV_HEADERS "Build using external SPIRV headers" OFF)
+option(EXTERNAL_SPIRV_TOOLS "Tools directory of external SPIRV headers" OFF)
+
+if (NOT ${EXTERNAL_SPIRV_TOOLS})
+  set(SHADY_SPIRV_TOOLS "${PROJECT_SOURCE_DIR}/SPIRV-Headers/tools")
+else ()
+  set(SHADY_SPIRV_TOOLS "${EXTERNAL_SPIRV_TOOLS}")
+endif ()
+
 if (MSVC)
   add_compile_definitions(_CRT_SECURE_NO_WARNINGS)
 endif()
@@ -23,7 +33,12 @@ if (WIN32)
   set(BUILD_SHARED_LIBS OFF)
 endif()
 
-add_subdirectory(SPIRV-Headers)
+option(BUILD_RUNTIME "Whether to build runtime components" ON)
+option(BUILD_SAMPLES "Whether to build built-in demo applications" ON)
+
+if (NOT ${EXTERNAL_SPIRV_HEADERS})
+    add_subdirectory(SPIRV-Headers)
+endif ()
 
 if(CMAKE_VERSION VERSION_GREATER_EQUAL "3.24" AND ${SHADY_USE_FETCHCONTENT})
     FetchContent_Declare(
@@ -86,9 +101,9 @@ endif()
 
 include(GNUInstallDirs)
 
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/lib)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/lib)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/bin)
 
 set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}")
 set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
@@ -107,10 +122,15 @@ if (PROJECT_IS_TOP_LEVEL)
     if (BUILD_TESTING)
       add_subdirectory(test)
     endif()
-    add_subdirectory(samples)
+
+    if (BUILD_SAMPLES)
+        add_subdirectory(samples)
+    endif ()
 endif()
 
-add_subdirectory(nasl)
+if (NOT ${EXTERNAL_NASL})
+    add_subdirectory(nasl)
+endif ()
 
 include(CMakePackageConfigHelpers)
 install(EXPORT shady_export_set DESTINATION share/cmake/shady/ NAMESPACE shady:: FILE shady-targets.cmake)
