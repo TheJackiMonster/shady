@@ -19,7 +19,7 @@ option(EXTERNAL_NASL "Build using external NASL" OFF)
 option(EXTERNAL_SPIRV_HEADERS "Build using external SPIRV headers" OFF)
 option(EXTERNAL_SPIRV_TOOLS "Tools directory of external SPIRV headers" OFF)
 
-if (NOT ${EXTERNAL_SPIRV_TOOLS})
+if (EXTERNAL_SPIRV_TOOLS STREQUAL "OFF")
   set(SHADY_SPIRV_TOOLS "${PROJECT_SOURCE_DIR}/SPIRV-Headers/tools")
 else ()
   set(SHADY_SPIRV_TOOLS "${EXTERNAL_SPIRV_TOOLS}")
